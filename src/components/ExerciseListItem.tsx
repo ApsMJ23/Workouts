@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { Link } from 'expo-router'
 import React from 'react'
 
 type ExerciseListItemProps = {
@@ -16,13 +17,15 @@ type ExerciseListItemProps = {
 export default function ExerciseListItem(props: ExerciseListItemProps) {
     const { difficulty, equipment, instructions, muscle, name, type } = props.exercise
     return (
-        <View style={styles.exerciseContainer}>
+        <Link href={`/${name}`} asChild={true}>
+            <Pressable style={styles.exerciseContainer}>
             <Text style={styles.ExerciseName}>{name}</Text>
             <Text style={styles.ExerciseSubtext}>
                 <Text style={styles.subValue}>{muscle}</Text> |{' '}
                 <Text style={styles.subValue}>{equipment}</Text>
             </Text>
-        </View>
+            </Pressable>
+        </Link>
     )
 }
 

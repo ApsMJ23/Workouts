@@ -4,7 +4,6 @@ import exercises from '../../assets/data/exercises.json';
 import ExerciseListItem from '../components/ExerciseListItem';
 
 export default function App() {
-  const exercise = exercises[0]
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -21,7 +20,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'ghostwhite',
     alignItems: 'center',
     justifyContent: 'center',
   },
