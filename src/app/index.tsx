@@ -1,14 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import exercises from '../../assets/data/exercises.json';
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import ExerciseListItem from '../components/ExerciseListItem';
+import { useQuery } from '@tanstack/react-query';
+import { gql } from 'graphql-request';
+import client from '../graphqlClient';
 
-export default function App() {
+const exercisesquery = gql`
+query exercises($muscle: String, $name: String){
+  exercises(muscle: $muscle, name: $name){
+      muscle
+      name
+      equipment
+  }
+}`;
+
+export default function ExercisesScreen() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['exercises'],
+    queryFn: async () => {
+      return client.request(exercisesquery)
+    }
+  })
+  if (isLoading) {
+    return <ActivityIndicator />
+  }
+  if (error) {
+    return <Text>{error.message}</Text>
+  }
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         style={{ width: '100%' }}
-        data={exercises}
+        //@ts-ignore
+        data={data.exercises}
         renderItem={({ item }) => <ExerciseListItem exercise={item} />}
         keyExtractor={(item) => item.name}
       />
