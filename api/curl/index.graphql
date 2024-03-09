@@ -1,0 +1,32 @@
+type DocumentsEntry {
+  _id: String
+  exercise: String
+  reps: Int
+  weight: Float
+}
+
+type Root {
+  documents: [DocumentsEntry]
+}
+
+type Query {
+  sets: Root
+    @rest(
+      method: POST
+      endpoint: "https://ap-south-1.aws.data.mongodb-api.com/app/data-ixpto/endpoint/data/v1/action/find"
+      headers: [
+        { name: "access-control-request-headers", value: "*" }
+        {
+          name: "api-key"
+          value: "9ag80XS5HCOpX9OLSABrU0bZx04OlDM17KgHirTus4fcyGFTx0wtzLdAfh0p1lcU"
+        }
+      ]
+      postbody: """
+      {
+        "collection": "sets",
+        "dataSource": "Cluster0",
+        "database": "workouts"
+      }
+      """
+    )
+}
